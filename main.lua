@@ -84,6 +84,7 @@ end
 
 local char = owner.Character
 local hum = char:FindFirstChildWhichIsA("Humanoid")
+local ts = game:GetService("TweenService")
 local hrp = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso")
 
 if not hum.RigType == Enum.HumanoidRigType.R6 then warn("Please switch to R6 and run this script again.") end
@@ -262,6 +263,58 @@ mouse.Button1Down:Connect(function()
 					end
 				end
 			end
+		end
+	end
+end)
+
+mouse.KeyDown:Connect(function(key)
+	if key == "x" then
+		if dbc == false then
+			local pos = mouse.Hit.Position
+			dbc = true
+			hrp.Anchored = true
+			local part = Instance.new("Part",workspace)
+			part.Name = "Thing"
+			part.BrickColor = BrickColor.Random()
+			part.Size = Vector3.new(0.5,0.1,0.5)
+			part.Transparency = 1
+			local mesh = Instance.new("SpecialMesh",part)
+			mesh.MeshType = Enum.MeshType.Sphere
+			local incTween = ts:Create(part,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+				Size = Vector3.new(5,0.1,5),
+				Transparency = 0.25,
+			})
+			incTween:Play()
+			incTween.Completed:Wait()
+			incTween:Destroy()
+			
+			local downTween = ts:Create(hrp,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+				Position = hrp - Vector3.new(0,6,0)
+			})
+			downTween:Play()
+			downTween.Completed:Wait()
+			downTween:Destroy()
+			char:SetPrimaryPartCFrame(pos - Vector3.new(0,3,0))
+			local part2 = Instance.new("Part",workspace)
+			part2.Name = "Thing"
+			part2.BrickColor = BrickColor.Random()
+			part2.Size = Vector3.new(0.5,0.1,0.5)
+			part2.Transparency = 1
+			local mesh2 = Instance.new("SpecialMesh",part2)
+			mesh2.MeshType = Enum.MeshType.Sphere
+			local incTween2 = ts:Create(part2,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+				Size = Vector3.new(5,0.1,5),
+				Transparency = 0.25,
+			})
+			local upTween = ts:Create(hrp,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+				Position = pos + Vector3.new(0,3,0)
+			})
+			incTween2:Play()
+			upTween:Play()
+			upTween.Completed:Wait()
+			upTween:Destroy()
+			incTween2:Destroy()
+			dbc = false
 		end
 	end
 end)

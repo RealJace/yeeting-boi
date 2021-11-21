@@ -296,7 +296,7 @@ mouse.KeyDown:Connect(function(key)
 			downTween:Play()
 			downTween.Completed:Wait()
 			downTween:Destroy()
-			char.Position = pos - Vector3.new(0,3,0)
+			hrp.Position = pos - Vector3.new(0,3,0)
 			local part2 = Instance.new("Part",workspace)
 			part2.Name = "Thing"
 			part2.BrickColor = BrickColor.Random()

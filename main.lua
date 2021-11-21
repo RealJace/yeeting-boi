@@ -318,6 +318,7 @@ mouse.KeyDown:Connect(function(key)
 			upTween.Completed:Wait()
 			upTween:Destroy()
 			incTween2:Destroy()
+			hrp.Anchored = false
 			dbc = false
 		end
 	end

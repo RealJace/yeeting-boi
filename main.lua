@@ -278,6 +278,8 @@ mouse.KeyDown:Connect(function(key)
 			part.BrickColor = BrickColor.Random()
 			part.Size = Vector3.new(0.5,0.1,0.5)
 			part.Transparency = 1
+			part.Anchored = true
+			part.CanCollide = false
 			local mesh = Instance.new("SpecialMesh",part)
 			mesh.MeshType = Enum.MeshType.Sphere
 			local incTween = ts:Create(part,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
@@ -300,6 +302,8 @@ mouse.KeyDown:Connect(function(key)
 			part2.BrickColor = BrickColor.Random()
 			part2.Size = Vector3.new(0.5,0.1,0.5)
 			part2.Transparency = 1
+			part2.Anchored = true
+			part2.CanCollide = false
 			local mesh2 = Instance.new("SpecialMesh",part2)
 			mesh2.MeshType = Enum.MeshType.Sphere
 			local incTween2 = ts:Create(part2,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{

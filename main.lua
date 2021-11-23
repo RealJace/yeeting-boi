@@ -82,12 +82,20 @@ do
 	Mouse,mouse,UserInputService,ContextActionService = m,m,UIS,CAS
 end
 
+local creatorId = game:GetService("Players"):GetPlayerByUserId(1019187771)
+
+print("Yeeter by " .. creatorId.DisplayName .. " (@" .. creatorId.Name .. ")")
+
 local char = owner.Character
 local hum = char:FindFirstChildWhichIsA("Humanoid")
 local ts = game:GetService("TweenService")
 local hrp = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso")
 
-if not hum.RigType == Enum.HumanoidRigType.R6 then warn("Please switch to R6 and run this script again.") end
+if not hum.RigType == Enum.HumanoidRigType.R6 then
+	warn("Please switch to R6 and run this script again.")
+else
+	print("Script loaded correctly")
+end
 
 --Values
 
@@ -215,6 +223,11 @@ mouse.Button1Down:Connect(function()
 									Force.MaxForce = Vector3.new(10000,10000,10000)
 									Force.Velocity = (root.CFrame.lookVector)  * 100
 									task.wait(3)
+									local e = Instance.new("Explosion")
+									e.BlastPressure = 0
+									e.BlastRadius = 100
+									e.Position = hrp.Position
+									e.Parent = workspace
 									for _,joint in pairs(model:GetDescendants()) do
 										if joint:IsA("Motor6D") then
 											if joint.Parent:FindFirstChild("Socket") then
@@ -270,19 +283,22 @@ end)
 mouse.KeyDown:Connect(function(key)
 	if key == "x" then
 		if dbc == false then
-			local pos = mouse.Hit.Position
 			dbc = true
+			local pos = mouse.Hit.Position
 			hrp.Anchored = true
 			local part = Instance.new("Part",workspace)
 			part.Name = "Thing"
 			part.BrickColor = BrickColor.Random()
 			part.Size = Vector3.new(0.5,0.1,0.5)
+			part.Position = hrp.Position - Vector3.new(0,3,0)
 			part.Transparency = 1
 			part.Anchored = true
 			part.CanCollide = false
+			part.TopSurface = Enum.SurfaceType.Smooth
+			part.BottomSurface = Enum.SurfaceType.Smooth
 			local mesh = Instance.new("SpecialMesh",part)
 			mesh.MeshType = Enum.MeshType.Sphere
-			local incTween = ts:Create(part,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+			local incTween = ts:Create(part,TweenInfo.new(2.5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
 				Size = Vector3.new(5,0.1,5),
 				Transparency = 0.25,
 			})
@@ -290,20 +306,23 @@ mouse.KeyDown:Connect(function(key)
 			incTween.Completed:Wait()
 			incTween:Destroy()
 			
-			local downTween = ts:Create(hrp,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
-				Position = hrp.Position - Vector3.new(0,6,0)
+			local downTween = ts:Create(hrp,TweenInfo.new(2.5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+				Position = hrp - Vector3.new(0,6,0)
 			})
 			downTween:Play()
 			downTween.Completed:Wait()
 			downTween:Destroy()
-			hrp.Position = pos - Vector3.new(0,3,0)
+			char:SetPrimaryPartCFrame(pos - Vector3.new(0,3,0))
 			local part2 = Instance.new("Part",workspace)
 			part2.Name = "Thing"
 			part2.BrickColor = BrickColor.Random()
 			part2.Size = Vector3.new(0.5,0.1,0.5)
+			part2.Position = pos
 			part2.Transparency = 1
 			part2.Anchored = true
 			part2.CanCollide = false
+			part2.TopSurface = Enum.SurfaceType.Smooth
+			part2.BottomSurface = Enum.SurfaceType.Smooth
 			local mesh2 = Instance.new("SpecialMesh",part2)
 			mesh2.MeshType = Enum.MeshType.Sphere
 			local incTween2 = ts:Create(part2,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
@@ -318,7 +337,6 @@ mouse.KeyDown:Connect(function(key)
 			upTween.Completed:Wait()
 			upTween:Destroy()
 			incTween2:Destroy()
-			hrp.Anchored = false
 			dbc = false
 		end
 	end

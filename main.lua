@@ -234,7 +234,7 @@ mouse.Button1Down:Connect(function()
 		local model = mouse.Target:FindFirstAncestorWhichIsA("Model")
 		if model then
 			if model:FindFirstChildWhichIsA("Humanoid") then
-				local hum = model:FindFirstChildWhichIsA("Humanoid")
+				local targethum = model:FindFirstChildWhichIsA("Humanoid")
 				local root = model:FindFirstChild("HumanoidRootPart") or model:FindFirstChild("Torso")
 				if root then
 					if dbc == false then
@@ -247,7 +247,7 @@ mouse.Button1Down:Connect(function()
 						weld.Part0 = hrp
 						weld.Part1 = root
 						weld.C0 = CFrame.new(0,3,-0.5)
-						hum.PlatformStand = true
+						targethum.PlatformStand = true
 						mouse.KeyDown:Connect(function(key)
 							if keyDbc == false then
 								if key == "q" then
@@ -314,7 +314,7 @@ mouse.Button1Down:Connect(function()
 									Force:Destroy()
 									fard:Destroy()
 									dbc = false
-									hum.PlatformStand = false
+									targethum.PlatformStand = false
 									return
 								elseif key == "e" then
 									for _,joint in pairs(model:GetDescendants()) do
@@ -334,7 +334,7 @@ mouse.Button1Down:Connect(function()
 									coroutine.wrap(function()
 										defaultAnim()
 									end)()
-									hum.PlatformStand = false
+									targethum.PlatformStand = false
 									weld:Destroy()
 									dbc = false
 									return

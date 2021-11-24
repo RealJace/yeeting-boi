@@ -108,9 +108,6 @@ local GOINGTOBRAZIL = Instance.new("Sound",hrp)
 GOINGTOBRAZIL.SoundId = "rbxassetid://6531010123"
 GOINGTOBRAZIL.Volume = 1
 
-local rightC0 = char.Torso["Right Shoulder"].C0
-local leftC0 = char.Torso["Left Shoulder"].C0
-
 local rightArm = Instance.new("Weld")
 rightArm.Name = "RightArmWeld"
 rightArm.Parent = char.Torso
@@ -127,39 +124,107 @@ leftArm.Part0 = char.Torso
 leftArm.C0 = char.Torso["Left Shoulder"].C0
 leftArm.C1 = char.Torso["Left Shoulder"].C1
 
+local rightLeg = Instance.new("Weld")
+rightLeg.Name = "RightLegWeld"
+rightLeg.Parent = char.Torso
+rightLeg.Part1 = char["Right Leg"]
+rightLeg.Part0 = char.Torso
+rightLeg.C0 = char.Torso["Right Hip"].C0
+rightLeg.C1 = char.Torso["Right Hip"].C1
+
+local leftLeg = Instance.new("Weld")
+leftLeg.Name = "LeftLegWeld"
+leftLeg.Parent = char.Torso
+leftLeg.Part1 = char["Left Leg"]
+leftLeg.Part0 = char.Torso
+leftLeg.C0 = char.Torso["Left Hip"].C0
+leftLeg.C1 = char.Torso["Left Hip"].C1
+
+local head = Instance.new("Weld")
+head.Name = "HeadWeld"
+head.Parent = char.Torso
+head.Part1 = char.Head
+head.Part0 = char.Torso
+head.C0 = char.Torso["Neck"].C0
+head.C1 = char.Torso["Neck"].C1
+
+local torso = Instance.new("Weld")
+torso.Name = "TorsoWeld"
+torso.Parent = hrp
+torso.Part1 = char.Torso
+torso.Part0 = hrp
+torso.C0 = hrp.RootJoint.C0
+torso.C1 = hrp.RootJoint.C1
+
 hum.MaxHealth = math.huge
 hum.Health = hum.MaxHealth
 
 function readyAnim()
 	for i = 0,1,0.2 do
-		rightArm.C0 = rightArm.C0:Lerp(rightC0 * CFrame.Angles(0, 0, math.rad(15.011)),i)
-		leftArm.C0 = leftArm.C0:Lerp(leftC0 * CFrame.Angles(0, 0, math.rad(-15.011)),i)
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.Angles(0, 0, math.rad(15.011)),i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0 * CFrame.Angles(0, 0, math.rad(-15.011)),i)
 		task.wait()
 	end
 	for i = 0,1,0.2 do
-		rightArm.C0 = rightArm.C0:Lerp(rightC0 * CFrame.new(0.224, 0.48, 0) * CFrame.Angles(0, 0, math.rad(154.985)),i)
-		leftArm.C0 = leftArm.C0:Lerp(leftC0 * CFrame.new(-0.224, 0.48, 0) * CFrame.Angles(0, 0, math.rad(-154.985)),i)
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.new(0.224, 0.48, 0) * CFrame.Angles(0, 0, math.rad(154.985)),i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0 * CFrame.new(-0.224, 0.48, 0) * CFrame.Angles(0, 0, math.rad(-154.985)),i)
 		task.wait()
 	end
 end
 
 function yeetAnim()
 	for i = 0,1,0.2 do
-		rightArm.C0 = rightArm.C0:Lerp(rightC0 * CFrame.new(1.382, 0.582, 0) * CFrame.Angles(0, 0, math.rad(94.996)),i)
-		leftArm.C0 = leftArm.C0:Lerp(leftC0 * CFrame.new(-0.925, 0.637, 0) * CFrame.Angles(0, 0, math.rad(-94.996)),i)
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.new(1.382, 0.582, 0) * CFrame.Angles(0, 0, math.rad(94.996)),i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0 * CFrame.new(-0.925, 0.637, 0) * CFrame.Angles(0, 0, math.rad(-94.996)),i)
 		task.wait()
 	end
 	for i = 0,1,0.2 do
-		rightArm.C0 = rightArm.C0:Lerp(rightC0 * CFrame.new(1.355, -0.16, 0) * CFrame.Angles(0, 0, math.rad(-35.008)),i)
-		leftArm.C0 = leftArm.C0:Lerp(leftC0 * CFrame.new(-1.32, -0.172, 0) * CFrame.Angles(0, 0, math.rad(19.996)),i)
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.new(1.355, -0.16, 0) * CFrame.Angles(0, 0, math.rad(-35.008)),i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0 * CFrame.new(-1.32, -0.172, 0) * CFrame.Angles(0, 0, math.rad(19.996)),i)
 		task.wait()
 	end
 end
 
 function defaultAnim()
 	for i = 0,1,0.2 do
-		rightArm.C0 = rightArm.C0:Lerp(rightC0,i)
-		leftArm.C0 = leftArm.C0:Lerp(leftC0,i)
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0,i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0,i)
+		task.wait()
+	end
+end
+
+function defaultLegsAnim()
+	for i = 0,1,0.2 do
+		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0,i)
+		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0,i)
+		task.wait()
+	end
+end
+
+function walkAnim()
+	for i = 0,1,0.2 do
+		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
+		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
+		task.wait()
+	end
+	for i = 0,1,0.2 do
+		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
+		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.new(-0.53, 0.177, 0) * CFrame.Angles(0, 0, math.rad(45.034)),i)
+		task.wait()
+	end
+	for i = 0,1,0.2 do
+		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
+		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
+		task.wait()
+	end
+	for i = 0,1,0.2 do
+		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.new(0.786, 0.442, 0) * CFrame.Angles(0, 0, math.rad(-26.986)),i)
+		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
+		task.wait()
+	end
+	for i = 0,1,0.2 do
+		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
+		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
 		task.wait()
 	end
 end
@@ -183,8 +248,7 @@ mouse.Button1Down:Connect(function()
 						weld.Part1 = root
 						weld.C0 = CFrame.new(0,3,-0.5)
 						hum.PlatformStand = true
-						local keyConnection = nil
-						keyConnection = mouse.KeyDown:Connect(function(key)
+						mouse.KeyDown:Connect(function(key)
 							if keyDbc == false then
 								if key == "q" then
 									keyDbc = true
@@ -223,10 +287,14 @@ mouse.Button1Down:Connect(function()
 									Force.MaxForce = Vector3.new(10000,10000,10000)
 									Force.Velocity = (root.CFrame.lookVector)  * 100
 									task.wait(3)
+									local fard = Instance.new("Sound",root)
+									fard.SoundId = "rbxassetid://7466798053"
+									fard.Volume = 1
+									fard:Play()
 									local e = Instance.new("Explosion")
 									e.BlastPressure = 0
 									e.BlastRadius = 100
-									e.Position = hrp.Position
+									e.Position = root.Position
 									e.Parent = workspace
 									for _,joint in pairs(model:GetDescendants()) do
 										if joint:IsA("Motor6D") then
@@ -244,10 +312,10 @@ mouse.Button1Down:Connect(function()
 									end
 									Skreem:Destroy()
 									Force:Destroy()
-									keyDbc = false
+									fard:Destroy()
 									dbc = false
 									hum.PlatformStand = false
-									keyConnection:Disconnect()
+									return
 								elseif key == "e" then
 									for _,joint in pairs(model:GetDescendants()) do
 										if joint:IsA("Motor6D") then
@@ -269,7 +337,7 @@ mouse.Button1Down:Connect(function()
 									hum.PlatformStand = false
 									weld:Destroy()
 									dbc = false
-									keyConnection:Disconnect()
+									return
 								end
 							end
 						end)
@@ -340,4 +408,26 @@ mouse.KeyDown:Connect(function(key)
 			dbc = false
 		end
 	end
+end)
+
+--Walking
+
+coroutine.wrap(function()
+	while task.wait() do
+		if hum.MoveDirection ~= Vector3.new(0,0,0) then
+			walkAnim()
+			return defaultLegsAnim()
+		else
+			defaultLegsAnim()
+			return walkAnim()
+		end
+	end
+end)()
+
+hum.Died:Connect(function()
+	local e = Instance.new("Explosion")
+	e.BlastPressure = math.huge
+	e.BlastRadius = 100
+	e.Position = hrp.Position
+	e.Parent = workspace
 end)

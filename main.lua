@@ -202,27 +202,27 @@ function defaultLegsAnim()
 end
 
 function walkAnim()
-	for i = 0,1,0.2 do
+	for i = 0,1,0.1 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
 		task.wait()
 	end
-	for i = 0,1,0.2 do
+	for i = 0,1,0.1 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.new(-0.53, 0.177, 0) * CFrame.Angles(0, 0, math.rad(45.034)),i)
 		task.wait()
 	end
-	for i = 0,1,0.2 do
+	for i = 0,1,0.1 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
 		task.wait()
 	end
-	for i = 0,1,0.2 do
+	for i = 0,1,0.1 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.new(0.786, 0.442, 0) * CFrame.Angles(0, 0, math.rad(-26.986)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
 		task.wait()
 	end
-	for i = 0,1,0.2 do
+	for i = 0,1,0.1 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
 		task.wait()
@@ -416,10 +416,10 @@ coroutine.wrap(function()
 	while task.wait() do
 		if hum.MoveDirection ~= Vector3.new(0,0,0) then
 			walkAnim()
-			return defaultLegsAnim()
+			--return defaultLegsAnim()
 		else
 			defaultLegsAnim()
-			return walkAnim()
+			--return walkAnim()
 		end
 	end
 end)()

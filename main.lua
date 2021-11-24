@@ -375,7 +375,7 @@ mouse.KeyDown:Connect(function(key)
 			incTween:Destroy()
 			
 			local downTween = ts:Create(hrp,TweenInfo.new(2.5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
-				Position = hrp - Vector3.new(0,6,0)
+				Position = hrp.Position - Vector3.new(0,6,0)
 			})
 			downTween:Play()
 			downTween.Completed:Wait()

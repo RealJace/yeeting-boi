@@ -104,6 +104,15 @@ local keyDbc = false
 
 --Code
 
+local bindEvent = Instance.new("BindableEvent",script)
+bindEvent.Name = "InputBegan"
+local bindEvent2 = Instance.new("BindableEvent",script)
+bindEvent2.Name = "InputEnded"
+
+local InputBegan = bindEvent.Event
+local InputEnded = bindEvent2.Event
+
+
 local GOINGTOBRAZIL = Instance.new("Sound",hrp)
 GOINGTOBRAZIL.SoundId = "rbxassetid://6531010123"
 GOINGTOBRAZIL.Volume = 1
@@ -159,6 +168,85 @@ torso.C1 = hrp.RootJoint.C1
 hum.MaxHealth = math.huge
 hum.Health = hum.MaxHealth
 
+BillboardGui0 = Instance.new("BillboardGui")
+Frame1 = Instance.new("Frame")
+TextLabel2 = Instance.new("TextLabel")
+Frame3 = Instance.new("Frame")
+TextLabel4 = Instance.new("TextLabel")
+BillboardGui0.Parent = char.Head
+BillboardGui0.Size = UDim2.new(4, 0, 2, 0)
+BillboardGui0.Active = true
+BillboardGui0.ClipsDescendants = true
+BillboardGui0.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+BillboardGui0.MaxDistance = 20
+BillboardGui0.StudsOffset = Vector3.new(0, 2, 0)
+BillboardGui0.Brightness = 1.5
+Frame1.Parent = BillboardGui0
+Frame1.Position = UDim2.new(0.5, 0, 0.5, 0)
+Frame1.Size = UDim2.new(1, 0, 1, 0)
+Frame1.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame1.BackgroundColor = BrickColor.new("Institutional white")
+Frame1.BackgroundColor3 = Color3.new(1, 1, 1)
+Frame1.BackgroundTransparency = 1
+TextLabel2.Name = "PlrName"
+TextLabel2.Parent = Frame1
+TextLabel2.Size = UDim2.new(1, 0, 0.5, 0)
+TextLabel2.BackgroundColor = BrickColor.new("Institutional white")
+TextLabel2.BackgroundColor3 = Color3.new(1, 1, 1)
+TextLabel2.BackgroundTransparency = 1
+TextLabel2.Font = Enum.Font.LuckiestGuy
+TextLabel2.FontSize = Enum.FontSize.Size28
+TextLabel2.Text = owner.DisplayName
+TextLabel2.TextColor = BrickColor.new("Institutional white")
+TextLabel2.TextColor3 = Color3.new(1, 1, 1)
+TextLabel2.TextScaled = true
+TextLabel2.TextSize = 25
+TextLabel2.TextStrokeTransparency = 0
+TextLabel2.TextWrap = true
+TextLabel2.TextWrapped = true
+Frame3.Name = "helthBar"
+Frame3.Parent = Frame1
+Frame3.Position = UDim2.new(0, 0, 0.5, 0)
+Frame3.Size = UDim2.new(1, 0, 0, 25)
+Frame3.BackgroundColor = BrickColor.new("Lime green")
+Frame3.BackgroundColor3 = Color3.new(0, 1, 0)
+Frame3.BorderSizePixel = 0
+TextLabel4.Name = "healthText"
+TextLabel4.Parent = Frame3
+TextLabel4.Position = UDim2.new(0.5, 0, 0.649999976, 0)
+TextLabel4.Size = UDim2.new(1, 0, 0, 25)
+TextLabel4.AnchorPoint = Vector2.new(0.5, 0.5)
+TextLabel4.BackgroundColor = BrickColor.new("Lime green")
+TextLabel4.BackgroundColor3 = Color3.new(0, 1, 0)
+TextLabel4.BackgroundTransparency = 1
+TextLabel4.BorderSizePixel = 0
+TextLabel4.Font = Enum.Font.LuckiestGuy
+TextLabel4.Text = "Health : 100%"
+TextLabel4.TextColor = BrickColor.new("Institutional white")
+TextLabel4.TextColor3 = Color3.new(1, 1, 1)
+TextLabel4.TextScaled = true
+TextLabel4.TextStrokeTransparency = 0
+TextLabel4.TextWrap = true
+TextLabel4.TextWrapped = true
+
+NLS([==[
+
+local uis = game:GetService("UserInputService")
+
+local event = script:WaitForChild("InputBegan")
+local event2 = script:WaitForChild("InputEnded")
+
+uis.InputBegan:Connect(function(input,gameProccesed)
+event:Fire(input,gameProccesed)
+end)
+
+uis.InputEnded:Connect(function(input,gameProccesed)
+event2:Fire(input,gameProccesed)
+end)
+
+]==]
+)
+
 function readyAnim()
 	for i = 0,1,0.2 do
 		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.Angles(0, 0, math.rad(15.011)),i)
@@ -194,39 +282,42 @@ function defaultAnim()
 end
 
 function defaultLegsAnim()
-	for i = 0,1,0.2 do
-		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0,i)
-		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0,i)
-		task.wait()
-	end
+	rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0,0.3)
+	leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0,0.3)
 end
 
 function walkAnim()
-	for i = 0,1,0.1 do
+	if hum.MoveDirection == Vector3.new(0,0,0) then return end
+	for i = 0,1,0.2 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
 		task.wait()
 	end
-	for i = 0,1,0.1 do
+	if hum.MoveDirection == Vector3.new(0,0,0) then return end
+	for i = 0,1,0.2 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.new(-0.53, 0.177, 0) * CFrame.Angles(0, 0, math.rad(45.034)),i)
 		task.wait()
 	end
-	for i = 0,1,0.1 do
+	if hum.MoveDirection == Vector3.new(0,0,0) then return end
+	for i = 0,1,0.2 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
 		task.wait()
 	end
-	for i = 0,1,0.1 do
+	if hum.MoveDirection == Vector3.new(0,0,0) then return end
+	for i = 0,1,0.2 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.new(0.786, 0.442, 0) * CFrame.Angles(0, 0, math.rad(-26.986)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
 		task.wait()
 	end
-	for i = 0,1,0.1 do
+	if hum.MoveDirection == Vector3.new(0,0,0) then return end
+	for i = 0,1,0.2 do
 		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
 		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
 		task.wait()
 	end
+	if hum.MoveDirection == Vector3.new(0,0,0) then return end
 end
 
 mouse.Button1Down:Connect(function()
@@ -234,8 +325,8 @@ mouse.Button1Down:Connect(function()
 		local model = mouse.Target:FindFirstAncestorWhichIsA("Model")
 		if model then
 			if model:FindFirstChildWhichIsA("Humanoid") then
-				local targethum = model:FindFirstChildWhichIsA("Humanoid")
-				local root = model:FindFirstChild("HumanoidRootPart") or model:FindFirstChild("Torso")
+				local hum = model:FindFirstChildWhichIsA("Humanoid")
+				local root = model:FindFirstChild("HumanoidRootPart") or model:FindFirstChild("Torso") or model:FindFirstChild("Head")
 				if root then
 					if dbc == false then
 						dbc = true
@@ -247,7 +338,7 @@ mouse.Button1Down:Connect(function()
 						weld.Part0 = hrp
 						weld.Part1 = root
 						weld.C0 = CFrame.new(0,3,-0.5)
-						targethum.PlatformStand = true
+						hum.PlatformStand = true
 						mouse.KeyDown:Connect(function(key)
 							if keyDbc == false then
 								if key == "q" then
@@ -281,11 +372,10 @@ mouse.Button1Down:Connect(function()
 											joint.Enabled = false
 										end
 									end
-									local Force = Instance.new("BodyVelocity")
+									local Force = Instance.new("BodyForce")
 									Force.Parent = root
 									Force.Name = "Force"
-									Force.MaxForce = Vector3.new(10000,10000,10000)
-									Force.Velocity = (root.CFrame.lookVector)  * 100
+									Force.Force = Vector3.new(0,0,-9999)
 									task.wait(3)
 									local fard = Instance.new("Sound",root)
 									fard.SoundId = "rbxassetid://7466798053"
@@ -314,7 +404,7 @@ mouse.Button1Down:Connect(function()
 									Force:Destroy()
 									fard:Destroy()
 									dbc = false
-									targethum.PlatformStand = false
+									hum.PlatformStand = false
 									return
 								elseif key == "e" then
 									for _,joint in pairs(model:GetDescendants()) do
@@ -334,7 +424,7 @@ mouse.Button1Down:Connect(function()
 									coroutine.wrap(function()
 										defaultAnim()
 									end)()
-									targethum.PlatformStand = false
+									hum.PlatformStand = false
 									weld:Destroy()
 									dbc = false
 									return
@@ -348,86 +438,50 @@ mouse.Button1Down:Connect(function()
 	end
 end)
 
-mouse.KeyDown:Connect(function(key)
-	if key == "x" then
-		if dbc == false then
-			dbc = true
-			local pos = mouse.Hit.Position
-			hrp.Anchored = true
-			local part = Instance.new("Part",workspace)
-			part.Name = "Thing"
-			part.BrickColor = BrickColor.Random()
-			part.Size = Vector3.new(0.5,0.1,0.5)
-			part.Position = hrp.Position - Vector3.new(0,3,0)
-			part.Transparency = 1
-			part.Anchored = true
-			part.CanCollide = false
-			part.TopSurface = Enum.SurfaceType.Smooth
-			part.BottomSurface = Enum.SurfaceType.Smooth
-			local mesh = Instance.new("SpecialMesh",part)
-			mesh.MeshType = Enum.MeshType.Sphere
-			local incTween = ts:Create(part,TweenInfo.new(2.5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
-				Size = Vector3.new(5,0.1,5),
-				Transparency = 0.25,
-			})
-			incTween:Play()
-			incTween.Completed:Wait()
-			incTween:Destroy()
-			
-			local downTween = ts:Create(hrp,TweenInfo.new(2.5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
-				Position = hrp.Position - Vector3.new(0,6,0)
-			})
-			downTween:Play()
-			downTween.Completed:Wait()
-			downTween:Destroy()
-			char:SetPrimaryPartCFrame(pos - Vector3.new(0,3,0))
-			local part2 = Instance.new("Part",workspace)
-			part2.Name = "Thing"
-			part2.BrickColor = BrickColor.Random()
-			part2.Size = Vector3.new(0.5,0.1,0.5)
-			part2.Position = pos
-			part2.Transparency = 1
-			part2.Anchored = true
-			part2.CanCollide = false
-			part2.TopSurface = Enum.SurfaceType.Smooth
-			part2.BottomSurface = Enum.SurfaceType.Smooth
-			local mesh2 = Instance.new("SpecialMesh",part2)
-			mesh2.MeshType = Enum.MeshType.Sphere
-			local incTween2 = ts:Create(part2,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
-				Size = Vector3.new(5,0.1,5),
-				Transparency = 0.25,
-			})
-			local upTween = ts:Create(hrp,TweenInfo.new(5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
-				Position = pos + Vector3.new(0,3,0)
-			})
-			incTween2:Play()
-			upTween:Play()
-			upTween.Completed:Wait()
-			upTween:Destroy()
-			incTween2:Destroy()
-			dbc = false
-		end
-	end
-end)
-
 --Walking
 
 coroutine.wrap(function()
 	while task.wait() do
 		if hum.MoveDirection ~= Vector3.new(0,0,0) then
-			walkAnim()
-			--return defaultLegsAnim()
+			coroutine.wrap(function()
+				walkAnim()
+			end)()
 		else
-			defaultLegsAnim()
-			--return walkAnim()
+			coroutine.wrap(function()
+				defaultLegsAnim()
+			end)()
 		end
+		Frame3:TweenSize(UDim2.new(math.clamp(hum.Health / 100,0,1), 0,0, 25))
+		TextLabel4.Text = "Health : " .. tostring(math.floor(math.clamp(hum.Health,0,100))) .. "%"
 	end
 end)()
 
+char.DescendantAdded:Connect(function(i)
+	if i:IsA("BodyPosition") or i:IsA("BodyForce") or i:IsA("BodyVelocity") or i:IsA("BodyGyro") then
+		i:Destroy()
+	end
+end)
+
 hum.Died:Connect(function()
 	local e = Instance.new("Explosion")
-	e.BlastPressure = math.huge
+	e.BlastPressure = math.random(1,100)
 	e.BlastRadius = 100
 	e.Position = hrp.Position
 	e.Parent = workspace
+end)
+
+hum.HealthChanged:Connect(function()
+	hum.Health = hum.MaxHealth
+end)
+
+InputBegan:Connect(function(input,isChatting)
+	if not isChatting then
+		if input.KeyCode == Enum.KeyCode.Q then
+			NLS([==[
+			
+			print("Q was pressed")
+			
+			]==])
+		end
+	end
 end)

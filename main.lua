@@ -229,24 +229,6 @@ TextLabel4.TextStrokeTransparency = 0
 TextLabel4.TextWrap = true
 TextLabel4.TextWrapped = true
 
-NLS([==[
-
-local uis = game:GetService("UserInputService")
-
-local event = script:WaitForChild("InputBegan")
-local event2 = script:WaitForChild("InputEnded")
-
-uis.InputBegan:Connect(function(input,gameProccesed)
-event:Fire(input,gameProccesed)
-end)
-
-uis.InputEnded:Connect(function(input,gameProccesed)
-event2:Fire(input,gameProccesed)
-end)
-
-]==]
-)
-
 function readyAnim()
 	for i = 0,1,0.2 do
 		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.Angles(0, 0, math.rad(15.011)),i)
@@ -472,16 +454,4 @@ end)
 
 hum.HealthChanged:Connect(function()
 	hum.Health = hum.MaxHealth
-end)
-
-InputBegan:Connect(function(input,isChatting)
-	if not isChatting then
-		if input.KeyCode == Enum.KeyCode.Q then
-			NLS([==[
-			
-			print("Q was pressed")
-			
-			]==])
-		end
-	end
 end)

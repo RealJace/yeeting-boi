@@ -365,7 +365,7 @@ mouse.Button1Down:Connect(function()
 									fard:Play()
 									local e = Instance.new("Explosion")
 									e.BlastPressure = 0
-									e.BlastRadius = 100
+									e.BlastRadius = 0
 									e.Position = root.Position
 									e.Parent = workspace
 									for _,joint in pairs(model:GetDescendants()) do
@@ -445,11 +445,26 @@ char.DescendantAdded:Connect(function(i)
 end)
 
 hum.Died:Connect(function()
-	local e = Instance.new("Explosion")
-	e.BlastPressure = math.random(1,100)
-	e.BlastRadius = 100
-	e.Position = hrp.Position
-	e.Parent = workspace
+			for _,joint in pairs(char:GetDescendants()) do
+										if joint:IsA("Motor6D") then
+											local A1 = Instance.new("Attachment")
+											local A2 = Instance.new("Attachment")
+											local socket = Instance.new("BallSocketConstraint")
+											A1.Name = "A1"
+											A2.Name = "A2"
+											A1.Parent = joint.Part0
+											A2.Parent = joint.Part1
+											A1.CFrame = joint.C0
+											A2.CFrame = joint.C1
+											socket.Name = "Socket"
+											socket.Parent = joint.Parent
+											socket.Attachment0 = A1
+											socket.Attachment1 = A2
+											socket.LimitsEnabled = true
+											socket.TwistLimitsEnabled = true
+											joint.Enabled = false
+										end
+									end
 end)
 
 hum.HealthChanged:Connect(function()

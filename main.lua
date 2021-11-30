@@ -104,15 +104,6 @@ local keyDbc = false
 
 --Code
 
-local bindEvent = Instance.new("BindableEvent",script)
-bindEvent.Name = "InputBegan"
-local bindEvent2 = Instance.new("BindableEvent",script)
-bindEvent2.Name = "InputEnded"
-
-local InputBegan = bindEvent.Event
-local InputEnded = bindEvent2.Event
-
-
 local GOINGTOBRAZIL = Instance.new("Sound",hrp)
 GOINGTOBRAZIL.SoundId = "rbxassetid://6531010123"
 GOINGTOBRAZIL.Volume = 1
@@ -263,45 +254,6 @@ function defaultAnim()
 	end
 end
 
-function defaultLegsAnim()
-	rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0,0.3)
-	leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0,0.3)
-end
-
-function walkAnim()
-	if hum.MoveDirection == Vector3.new(0,0,0) then return end
-	for i = 0,1,0.2 do
-		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
-		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
-		task.wait()
-	end
-	if hum.MoveDirection == Vector3.new(0,0,0) then return end
-	for i = 0,1,0.2 do
-		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
-		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.new(-0.53, 0.177, 0) * CFrame.Angles(0, 0, math.rad(45.034)),i)
-		task.wait()
-	end
-	if hum.MoveDirection == Vector3.new(0,0,0) then return end
-	for i = 0,1,0.2 do
-		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
-		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(-39.935)),i)
-		task.wait()
-	end
-	if hum.MoveDirection == Vector3.new(0,0,0) then return end
-	for i = 0,1,0.2 do
-		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.new(0.786, 0.442, 0) * CFrame.Angles(0, 0, math.rad(-26.986)),i)
-		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(0)),i)
-		task.wait()
-	end
-	if hum.MoveDirection == Vector3.new(0,0,0) then return end
-	for i = 0,1,0.2 do
-		rightLeg.C0 = rightLeg.C0:Lerp(char.Torso["Right Hip"].C0 * CFrame.Angles(0, 0, math.rad(30.023)),i)
-		leftLeg.C0 = leftLeg.C0:Lerp(char.Torso["Left Hip"].C0 * CFrame.Angles(0, 0, math.rad(35.008)),i)
-		task.wait()
-	end
-	if hum.MoveDirection == Vector3.new(0,0,0) then return end
-end
-
 mouse.Button1Down:Connect(function()
 	if mouse.Target ~= nil then
 		local model = mouse.Target:FindFirstAncestorWhichIsA("Model")
@@ -357,7 +309,7 @@ mouse.Button1Down:Connect(function()
 									local Force = Instance.new("BodyForce")
 									Force.Parent = root
 									Force.Name = "Force"
-									Force.Force = hrp.CFrame.LookVector * 9999
+									Force.Force = Vector3.new(0,0,-9999)
 									task.wait(3)
 									local fard = Instance.new("Sound",root)
 									fard.SoundId = "rbxassetid://7466798053"
@@ -365,7 +317,7 @@ mouse.Button1Down:Connect(function()
 									fard:Play()
 									local e = Instance.new("Explosion")
 									e.BlastPressure = 0
-									e.BlastRadius = 0
+									e.BlastRadius = 100
 									e.Position = root.Position
 									e.Parent = workspace
 									for _,joint in pairs(model:GetDescendants()) do
@@ -424,16 +376,18 @@ end)
 
 coroutine.wrap(function()
 	while task.wait() do
-		if hum.MoveDirection ~= Vector3.new(0,0,0) then
-			coroutine.wrap(function()
-				walkAnim()
-			end)()
+		if hrp.Velocity.x > 1 or hrp.Velocity.x < -1 or hrp.Velocity.z > 1 or hrp.Velocity.z < -1 then
+			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick()*20)/15,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),math.cos(tick()*10)/15) * CFrame.fromEulerAnglesXYZ(hum.MoveDirection.z/6,0,-hum.MoveDirection.x/6) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0),0.3)
+			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1+math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((-math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(-math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
+			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
 		else
-			coroutine.wrap(function()
-				defaultLegsAnim()
-			end)()
+			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick())/20,0) * CFrame.Angles(0,math.rad(20),math.sin(tick())/30),0.3)
+			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1-math.sin(tick())/20,0) * CFrame.Angles(0,0,math.rad(-3)-math.sin(tick())/30) * CFrame.new(0,-1,0),0.3)
+			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.sin(tick())/20,0) * CFrame.Angles(0,0,math.rad(3)-math.sin(tick())/30) * CFrame.new(0,-1,0),0.3)
 		end
-		Frame3:TweenSize(UDim2.new(math.clamp(hum.Health / 100,0,1), 0,0, 25))
+		pcall(function()
+			Frame3:TweenSize(UDim2.new(math.clamp(hum.Health / 100,0,1), 0,0, 25))
+		end)
 		TextLabel4.Text = "Health : " .. tostring(math.floor(math.clamp(hum.Health,0,100))) .. "%"
 	end
 end)()
@@ -445,26 +399,11 @@ char.DescendantAdded:Connect(function(i)
 end)
 
 hum.Died:Connect(function()
-			for _,joint in pairs(char:GetDescendants()) do
-										if joint:IsA("Motor6D") then
-											local A1 = Instance.new("Attachment")
-											local A2 = Instance.new("Attachment")
-											local socket = Instance.new("BallSocketConstraint")
-											A1.Name = "A1"
-											A2.Name = "A2"
-											A1.Parent = joint.Part0
-											A2.Parent = joint.Part1
-											A1.CFrame = joint.C0
-											A2.CFrame = joint.C1
-											socket.Name = "Socket"
-											socket.Parent = joint.Parent
-											socket.Attachment0 = A1
-											socket.Attachment1 = A2
-											socket.LimitsEnabled = true
-											socket.TwistLimitsEnabled = true
-											joint.Enabled = false
-										end
-									end
+	local e = Instance.new("Explosion")
+	e.BlastPressure = math.random(1,100)
+	e.BlastRadius = 100
+	e.Position = hrp.Position
+	e.Parent = workspace
 end)
 
 hum.HealthChanged:Connect(function()

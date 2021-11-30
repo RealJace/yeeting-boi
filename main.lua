@@ -153,8 +153,8 @@ torso.Name = "TorsoWeld"
 torso.Parent = hrp
 torso.Part1 = char.Torso
 torso.Part0 = hrp
-torso.C0 = hrp.RootJoint.C0
-torso.C1 = hrp.RootJoint.C1
+--torso.C0 = hrp.RootJoint.C0
+--torso.C1 = hrp.RootJoint.C1
 
 hum.MaxHealth = math.huge
 hum.Health = hum.MaxHealth
@@ -378,8 +378,8 @@ coroutine.wrap(function()
 	while task.wait() do
 		if hrp.Velocity.x > 1 or hrp.Velocity.x < -1 or hrp.Velocity.z > 1 or hrp.Velocity.z < -1 then
 			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick()*20)/15,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),math.cos(tick()*10)/15) * CFrame.fromEulerAnglesXYZ(hum.MoveDirection.z/6,0,-hum.MoveDirection.x/6) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0),0.3)
-			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1+math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((-math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(-math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,0,0),0.3)
-			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,0,0),0.3)
+			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1+math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((-math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(-math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
+			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
 		else
 			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick())/20,0) * CFrame.Angles(0,math.rad(0),math.sin(tick())/30),0.3)
 			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1-math.sin(tick())/20,0) * CFrame.Angles(0,0,math.rad(-3)-math.sin(tick())/30) * CFrame.new(0,-1,0),0.3)

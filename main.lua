@@ -269,7 +269,7 @@ mouse.Button1Down:Connect(function()
 						GOINGTOBRAZIL:Play()
 						root.Anchored = false
 						local weld = Instance.new("Weld",hrp)
-						weld.Part0 = hrp
+						weld.Part0 = char.Torso
 						weld.Part1 = root
 						weld.C0 = CFrame.new(0,3,-0.5)
 						hum.PlatformStand = true
@@ -309,15 +309,15 @@ mouse.Button1Down:Connect(function()
 									local Force = Instance.new("BodyForce")
 									Force.Parent = root
 									Force.Name = "Force"
-									Force.Force = Vector3.new(0,0,-9999)
+									Force.Force = (hrp.LookVector) * 4000
 									task.wait(3)
 									local fard = Instance.new("Sound",root)
 									fard.SoundId = "rbxassetid://7466798053"
 									fard.Volume = 1
 									fard:Play()
 									local e = Instance.new("Explosion")
-									e.BlastPressure = 0
-									e.BlastRadius = 100
+									e.BlastPressure = 100
+									e.BlastRadius = 0
 									e.Position = root.Position
 									e.Parent = workspace
 									for _,joint in pairs(model:GetDescendants()) do
@@ -400,8 +400,8 @@ end)
 
 hum.Died:Connect(function()
 	local e = Instance.new("Explosion")
-	e.BlastPressure = math.random(1,100)
-	e.BlastRadius = 100
+	e.BlastPressure = 100
+	e.BlastRadius = 0
 	e.Position = hrp.Position
 	e.Parent = workspace
 end)

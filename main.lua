@@ -101,6 +101,7 @@ end
 
 local dbc = false
 local keyDbc = false
+local running = false
 
 --Code
 
@@ -159,11 +160,11 @@ torso.Part0 = hrp
 hum.MaxHealth = math.huge
 hum.Health = hum.MaxHealth
 
-BillboardGui0 = Instance.new("BillboardGui")
-Frame1 = Instance.new("Frame")
-TextLabel2 = Instance.new("TextLabel")
-Frame3 = Instance.new("Frame")
-TextLabel4 = Instance.new("TextLabel")
+local BillboardGui0 = Instance.new("BillboardGui")
+local Frame1 = Instance.new("Frame")
+local TextLabel2 = Instance.new("TextLabel")
+local Frame3 = Instance.new("Frame")
+local TextLabel4 = Instance.new("TextLabel")
 BillboardGui0.Parent = char.Head
 BillboardGui0.Size = UDim2.new(4, 0, 2, 0)
 BillboardGui0.Active = true
@@ -220,6 +221,51 @@ TextLabel4.TextStrokeTransparency = 0
 TextLabel4.TextWrap = true
 TextLabel4.TextWrapped = true
 
+local Attachment0A = Instance.new("Attachment",char["Right Arm"])
+Attachment0A.Position = Vector3.new(0,1,0)
+
+local Attachment1A = Instance.new("Attachment",char["Right Arm"])
+Attachment1A.Position = Vector3.new(0,-1,0)
+
+local Attachment0B = Instance.new("Attachment",char["Left Arm"])
+Attachment0B.Position = Vector3.new(0,1,0)
+
+local Attachment1B = Instance.new("Attachment",char["Left Arm"])
+Attachment1B.Position = Vector3.new(0,-1,0)
+
+local Trail0 = Instance.new("Trail")
+Trail0.Parent = char["Right Arm"]
+Trail0.Attachment0 = Attachment0A
+Trail0.Attachment1 = Attachment1A
+Trail0.Color = ColorSequence.new(Color3.new(0, 0, 1),Color3.new(0, 0, 1))
+Trail0.LightInfluence = 1
+Trail0.TextureMode = Enum.TextureMode.Static
+Trail0.Lifetime = 1
+
+local Trail1 = Instance.new("Trail")
+Trail1.Parent = char["Left Arm"]
+Trail1.Attachment0 = Attachment0B
+Trail1.Attachment1 = Attachment1B
+Trail1.Color = ColorSequence.new(Color3.new(0, 0, 1),Color3.new(0, 0, 1))
+Trail1.LightInfluence = 1
+Trail1.TextureMode = Enum.TextureMode.Static
+Trail1.Lifetime = 1
+
+local PointLight0 = Instance.new("PointLight")
+PointLight0.Parent = hrp
+PointLight0.Color = Color3.fromRGB(0, 0, 255)
+PointLight0.Range = 14
+PointLight0.Brightness = 0 --10
+PointLight0.Shadows = true
+
+local lightOn = ts:Create(PointLight0,TweenInfo.new(0.3,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+	Brightness = 10,
+})
+
+local lightOff = ts:Create(PointLight0,TweenInfo.new(0.3,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut,0,false,0),{
+	Brightness = 0,
+})
+
 function readyAnim()
 	for i = 0,1,0.2 do
 		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.Angles(0, 0, math.rad(15.011)),i)
@@ -262,7 +308,7 @@ mouse.Button1Down:Connect(function()
 				local hum = model:FindFirstChildWhichIsA("Humanoid")
 				local root = model:FindFirstChild("HumanoidRootPart") or model:FindFirstChild("Torso") or model:FindFirstChild("Head")
 				if root then
-					if dbc == false then
+					if dbc == false and keyDbc == false then
 						dbc = true
 						char:SetPrimaryPartCFrame(root.CFrame + Vector3.new(0,0,1.5))
 						readyAnim()
@@ -309,7 +355,7 @@ mouse.Button1Down:Connect(function()
 									local Force = Instance.new("BodyForce")
 									Force.Parent = root
 									Force.Name = "Force"
-									Force.Force = (hrp.CFrame.LookVector) * 4000
+									Force.Force = (hrp.CFrame.LookVector) * 2000
 									task.wait(3)
 									local fard = Instance.new("Sound",root)
 									fard.SoundId = "rbxassetid://7466798053"
@@ -337,14 +383,10 @@ mouse.Button1Down:Connect(function()
 									Skreem:Destroy()
 									Force:Destroy()
 									fard:Destroy()
+									hum.PlatformStand = false
 									dbc = false
 									keyDbc = false
-									pcall(function()
-										print(keyDbc)			
-									end)
-									hum.PlatformStand = false
 								elseif key == "e" then
-									keyDbc = false
 									for _,joint in pairs(model:GetDescendants()) do
 										if joint:IsA("Motor6D") then
 											if joint.Parent:FindFirstChild("Socket") then
@@ -365,10 +407,7 @@ mouse.Button1Down:Connect(function()
 									hum.PlatformStand = false
 									weld:Destroy()
 									dbc = false
-									pcall(function()
-										print(keyDbc)			
-									end)
-									
+									keyDbc = false
 								end
 							end
 						end)
@@ -391,6 +430,35 @@ coroutine.wrap(function()
 			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick())/20,0) * CFrame.Angles(0,math.rad(0),math.sin(tick())/30),0.3)
 			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1-math.sin(tick())/20,0) * CFrame.Angles(0,0,math.rad(-3)-math.sin(tick())/30) * CFrame.new(0,-1,0),0.3)
 			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.sin(tick())/20,0) * CFrame.Angles(0,0,math.rad(3)-math.sin(tick())/30) * CFrame.new(0,-1,0),0.3)
+		end
+		if running == true then
+			hum.WalkSpeed = 80
+			if Trail0.Enabled == false then
+				Trail0.Enabled = true
+			end
+			if Trail1.Enabled == false then
+				Trail1.Enabled = true
+			end
+			if lightOff.PlaybackState == Enum.PlaybackState.Playing then
+				lightOff:Pause()
+			end
+			if lightOn.PlaybackState ~= Enum.PlaybackState.Playing then
+				lightOn:Play()
+			end
+		else
+			hum.WalkSpeed = 16
+			if Trail0.Enabled == true then
+				Trail0.Enabled = false
+			end
+			if Trail1.Enabled == true then
+				Trail1.Enabled = false
+			end
+			if lightOn.PlaybackState == Enum.PlaybackState.Playing then
+				lightOn:Pause()
+			end
+			if lightOff.PlaybackState ~= Enum.PlaybackState.Playing then
+				lightOff:Play()
+			end
 		end
 		pcall(function()
 			Frame3:TweenSize(UDim2.new(math.clamp(hum.Health / 100,0,1), 0,0, 25))
@@ -415,4 +483,16 @@ end)
 
 hum.HealthChanged:Connect(function()
 	hum.Health = hum.MaxHealth
+end)
+
+mouse.KeyDown:Connect(function(key)
+	if key == "0" then
+		running = true
+	end
+end)
+
+mouse.KeyUp:Connect(function(key)
+	if key == "0" then
+		running = false
+	end
 end)

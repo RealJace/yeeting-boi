@@ -339,8 +339,10 @@ mouse.Button1Down:Connect(function()
 									fard:Destroy()
 									dbc = false
 									keyDbc = false
+									pcall(function()
+										print(keyDbc)			
+									end)
 									hum.PlatformStand = false
-									return
 								elseif key == "e" then
 									keyDbc = false
 									for _,joint in pairs(model:GetDescendants()) do
@@ -363,7 +365,10 @@ mouse.Button1Down:Connect(function()
 									hum.PlatformStand = false
 									weld:Destroy()
 									dbc = false
-									return
+									pcall(function()
+										print(keyDbc)			
+									end)
+									
 								end
 							end
 						end)

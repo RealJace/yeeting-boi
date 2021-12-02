@@ -488,8 +488,7 @@ hum.HealthChanged:Connect(function()
 end)
 
 mouse.KeyDown:Connect(function(key)
-	local code = string.byte(key)
-	if code == 48 or key == "0" then
+	if key == string.char(48) then
 		running = true
 		pcall(function()
 			print("running = " .. running)
@@ -498,8 +497,7 @@ mouse.KeyDown:Connect(function(key)
 end)
 
 mouse.KeyUp:Connect(function(key)
-	local code = string.byte(key)
-	if code == 48 or key == "0" then
+	if key == string.char(48) then
 		running = false
 		pcall(function()
 			print("running = " .. running)

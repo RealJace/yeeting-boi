@@ -102,10 +102,6 @@ end
 local dbc = false
 local keyDbc = false
 local running = false
-	
---Services
-	
-local uis = UserInputService
 
 --Code
 
@@ -489,20 +485,24 @@ hum.HealthChanged:Connect(function()
 	hum.Health = hum.MaxHealth
 end)
 
-uis.InputBegan:Connect(function(input,gP)
-	if not gP then
-	   if input.KeyCode == Enum.KeyCode.LeftShift then
+mouse.KeyDown:Connect(function(key)
+	if string.byte(string.lower(key)) == 48 then
 		running = true
-		print("run")
-	   end
+		pcall(function()
+			NLS([==[
+			print("Running")
+			]==])
+		end)
 	end
 end)
-	
-uis.InputEnded:Connect(function(input,gP)
-	if not gP then
-	   if input.KeyCode == Enum.KeyCode.LeftShift then
-		running = false		
-		print("walk")
-	   end
+
+mouse.KeyUp:Connect(function(key)
+	if string.byte(string.lower(key)) == 48 then
+		running = false
+		pcall(function()
+			NLS([==[
+			print("Walking")
+			]==])
+		end)
 	end
 end)

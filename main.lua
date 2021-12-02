@@ -61,8 +61,6 @@ do
 	local Event = script:WaitForChild("UserInput_Event")
 
 	local UIS = game:GetService("UserInputService")
-	local COS = game:GetService("ContextActionService")
-	COS:UnbindAction("MouseLockSwitchAction")
 	local input = function(io,a)
 		if a then return end
 		--Since InputObject is a client-side instance, we create and pass table instead
@@ -490,17 +488,13 @@ end)
 mouse.KeyDown:Connect(function(key)
 	if key == string.char(48) then
 		running = true
-		pcall(function()
-			print("running = " .. running)
-		end)
+		print("Running")
 	end
 end)
 
 mouse.KeyUp:Connect(function(key)
 	if key == string.char(48) then
 		running = false
-		pcall(function()
-			print("running = " .. running)
-		end)
+		print("Walking")
 	end
 end)

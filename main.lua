@@ -338,9 +338,11 @@ mouse.Button1Down:Connect(function()
 									Force:Destroy()
 									fard:Destroy()
 									dbc = false
+									keyDbc = false
 									hum.PlatformStand = false
 									return
 								elseif key == "e" then
+									keyDbc = false
 									for _,joint in pairs(model:GetDescendants()) do
 										if joint:IsA("Motor6D") then
 											if joint.Parent:FindFirstChild("Socket") then

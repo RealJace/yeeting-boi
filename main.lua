@@ -541,6 +541,12 @@ char.DescendantAdded:Connect(function(i)
 end)
 
 hum.Died:Connect(function()
+	rightLeg.Enabled = false
+	rightArm.Enabled = false
+	leftLeg.Enabled = false
+	leftArm.Enabled = false
+	torso.Enabled = false
+	head.Enabled = false
 	for _,joint in pairs(char:GetDescendants()) do
 		if joint:IsA("Motor6D") then
 			local A1 = Instance.new("Attachment")

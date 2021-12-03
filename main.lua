@@ -105,6 +105,37 @@ local running = false
 
 --Code
 
+local runningEvent = Instance.new("BindableEvent")
+runningEvent.Name = "RunningEvent"
+
+runningEvent.Parent = NLS([==[
+
+local event = script:WaitForChild("RunningEvent")
+
+local uis = game:GetService("UserInputService")
+uis.InputBegan:Connect(function(input,gameProccesed)
+	if not gameProccesed then
+		if input.KeyCode == Enum.KeyCode.LeftShift then
+			event:Fire(true)
+			print("Sprint")
+		end
+	end
+end)
+
+uis.InputEnded:Connect(function(input,gameProccesed)
+	if not gameProccesed then
+		if input.KeyCode == Enum.KeyCode.LeftShift then
+			event:Fire(false)
+			print("Walk")
+		end
+	end
+end)
+]==],char)
+
+runningEvent.Event:Connect(function(value)
+	running = value
+end)
+
 local GOINGTOBRAZIL = Instance.new("Sound",hrp)
 GOINGTOBRAZIL.SoundId = "rbxassetid://6531010123"
 GOINGTOBRAZIL.Volume = 1
@@ -483,18 +514,4 @@ end)
 
 hum.HealthChanged:Connect(function()
 	hum.Health = hum.MaxHealth
-end)
-
-mouse.KeyDown:Connect(function(key)
-	if key == string.char(48) then
-		running = true
-		print("Running")
-	end
-end)
-
-mouse.KeyUp:Connect(function(key)
-	if key == string.char(48) then
-		running = false
-		print("Walking")
-	end
 end)

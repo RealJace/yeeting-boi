@@ -89,6 +89,7 @@ print("Yeeter by " .. creatorId.DisplayName .. " (@" .. creatorId.Name .. ")")
 local char = owner.Character
 local hum = char:FindFirstChildWhichIsA("Humanoid")
 local ts = game:GetService("TweenService")
+local chat = game:GetService("Chat")
 local hrp = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso")
 
 if not hum.RigType == Enum.HumanoidRigType.R6 then
@@ -103,7 +104,18 @@ local dbc = false
 local keyDbc = false
 local running = false
 
+--Tables
+
+local chat_messages = {
+	"has been oblivirated by",
+	"has been yeeted so hard he died",
+	"has been reached health 0 by being yeeted by",
+	"has been joe mamad"
+}
+
 --Code
+
+hum.BreakJointsOnDeath = false
 
 local runningEvent = Instance.new("BindableEvent")
 runningEvent.Name = "RunningEvent"
@@ -117,23 +129,20 @@ uis.InputBegan:Connect(function(input,gameProccesed)
 	if not gameProccesed then
 		if input.KeyCode == Enum.KeyCode.LeftShift then
 			event:Fire(true)
-			print("Sprint")
 		end
 	end
 end)
 
 uis.InputEnded:Connect(function(input,gameProccesed)
-	if not gameProccesed then
-		if input.KeyCode == Enum.KeyCode.LeftShift then
-			event:Fire(false)
-			print("Walk")
-		end
+	if input.KeyCode == Enum.KeyCode.LeftShift then
+		event:Fire(false)
 	end
 end)
 ]==],char)
 
 runningEvent.Event:Connect(function(value)
 	running = value
+	print(running)
 end)
 
 local GOINGTOBRAZIL = Instance.new("Sound",hrp)
@@ -350,9 +359,17 @@ mouse.Button1Down:Connect(function()
 						weld.Part1 = root
 						weld.C0 = CFrame.new(0,3,-0.5)
 						hum.PlatformStand = true
+						model.Destroying:Connect(function()
+							coroutine.wrap(function()
+								defaultAnim()
+							end)()
+							weld:Destroy()
+							dbc = false
+							keyDbc = false
+						end)
 						mouse.KeyDown:Connect(function(key)
 							if keyDbc == false then
-								if key == "q" then
+								if string.lower(key) == "q" then
 									keyDbc = true
 									weld:Destroy()
 									coroutine.wrap(function()
@@ -390,11 +407,13 @@ mouse.Button1Down:Connect(function()
 									task.wait(3)
 									local fard = Instance.new("Sound",root)
 									fard.SoundId = "rbxassetid://7466798053"
-									fard.Volume = 1
+									fard.Volume = 2
 									fard:Play()
 									local e = Instance.new("Explosion")
-									e.BlastPressure = 100
+									e.BlastPressure = 0
 									e.BlastRadius = 0
+									e.DestroyJointRadiusPercent = 0
+									e.ExplosionType = Enum.ExplosionType.NoCraters
 									e.Position = root.Position
 									e.Parent = workspace
 									for _,joint in pairs(model:GetDescendants()) do
@@ -415,27 +434,38 @@ mouse.Button1Down:Connect(function()
 									Force:Destroy()
 									fard:Destroy()
 									hum.PlatformStand = false
+									hum.Health -= 10
+									if hum.Health < 1 then
+										game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage",{
+											Text = (model.Name .. " " .. chat_messages[math.random(1,#chat_messages)] .. " " .. owner.DisplayName);
+											Color = Color3.fromRGB(255,255,0);
+											Font = Enum.Font.Arcade; 
+											FontSize = Enum.FontSize.Size18;
+										})
+									end
 									dbc = false
 									keyDbc = false
-								elseif key == "e" then
-									for _,joint in pairs(model:GetDescendants()) do
-										if joint:IsA("Motor6D") then
-											if joint.Parent:FindFirstChild("Socket") then
-												joint.Parent.Socket:Destroy()
+								elseif string.lower(key) == "e" then
+									if model then
+										for _,joint in pairs(model:GetDescendants()) do
+											if joint:IsA("Motor6D") then
+												if joint.Parent:FindFirstChild("Socket") then
+													joint.Parent.Socket:Destroy()
+												end
+												if joint.Part0:FindFirstChild("A1") then
+													joint.Part0.A1:Destroy()
+												end
+												if joint.Part1:FindFirstChild("A2") then
+													joint.Part1.A2:Destroy()
+												end
+												joint.Enabled = true
 											end
-											if joint.Part0:FindFirstChild("A1") then
-												joint.Part0.A1:Destroy()
-											end
-											if joint.Part1:FindFirstChild("A2") then
-												joint.Part1.A2:Destroy()
-											end
-											joint.Enabled = true
 										end
+										hum.PlatformStand = false
 									end
 									coroutine.wrap(function()
 										defaultAnim()
 									end)()
-									hum.PlatformStand = false
 									weld:Destroy()
 									dbc = false
 									keyDbc = false
@@ -446,6 +476,12 @@ mouse.Button1Down:Connect(function()
 				end
 			end
 		end
+	end
+end)
+
+mouse.KeyDown:Connect(function(key)
+	if string.lower(key) == "x" then
+		
 	end
 end)
 
@@ -505,13 +541,24 @@ char.DescendantAdded:Connect(function(i)
 end)
 
 hum.Died:Connect(function()
-	local e = Instance.new("Explosion")
-	e.BlastPressure = 100
-	e.BlastRadius = 0
-	e.Position = hrp.Position
-	e.Parent = workspace
-end)
-
-hum.HealthChanged:Connect(function()
-	hum.Health = hum.MaxHealth
+	for _,joint in pairs(char:GetDescendants()) do
+		if joint:IsA("Motor6D") then
+			local A1 = Instance.new("Attachment")
+			local A2 = Instance.new("Attachment")
+			local socket = Instance.new("BallSocketConstraint")
+			A1.Name = "A1"
+			A2.Name = "A2"
+			A1.Parent = joint.Part0
+			A2.Parent = joint.Part1
+			A1.CFrame = joint.C0
+			A2.CFrame = joint.C1
+			socket.Name = "Socket"
+			socket.Parent = joint.Parent
+			socket.Attachment0 = A1
+			socket.Attachment1 = A2
+			socket.LimitsEnabled = true
+			socket.TwistLimitsEnabled = true
+			joint.Enabled = false
+		end
+	end
 end)

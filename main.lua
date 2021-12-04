@@ -480,16 +480,8 @@ mouse.Button1Down:Connect(function()
 end)
 
 mouse.KeyDown:Connect(function(key)
-	if string.lower(key) == string.char(48) or string.lower(key) == 0 then
-		print("Running")
-		running = true
-	end
-end)
-
-mouse.KeyUp:Connect(function(key)
-	if string.lower(key) == string.char(48) or string.lower(key) == 0 then
-		print("Walking")
-		running = false
+	if string.lower(key) == "x" then
+		running = not running
 	end
 end)
 

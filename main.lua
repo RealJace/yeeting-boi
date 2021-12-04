@@ -378,6 +378,11 @@ mouse.Button1Down:Connect(function()
 						weld.Part1 = root
 						weld.C0 = CFrame.new(0,3,-0.5)
 						hum.PlatformStand = true
+						for _,i in pairs(model:GetDescendants()) do
+							if i:IsA("BasePart") then
+								i.Massless = true			
+							end
+						end
 						model.Destroying:Connect(function()
 							coroutine.wrap(function()
 								defaultAnim()
@@ -453,6 +458,11 @@ mouse.Button1Down:Connect(function()
 									Force:Destroy()
 									fard:Destroy()
 									hum.PlatformStand = false
+									for _,i in pairs(model:GetDescendants()) do
+										if i:IsA("BasePart") then
+											i.Massless = false			
+										end
+									end
 									hum.Health -= 10
 									dbc = false
 									keyDbc = false
@@ -470,6 +480,11 @@ mouse.Button1Down:Connect(function()
 													joint.Part1.A2:Destroy()
 												end
 												joint.Enabled = true
+											end
+										end
+										for _,i in pairs(model:GetDescendants()) do
+											if i:IsA("BasePart") then
+												i.Massless = false			
 											end
 										end
 										hum.PlatformStand = false
@@ -545,6 +560,11 @@ mouse.Button1Down:Connect(function()
 									Force:Destroy()
 									fard:Destroy()
 									hum.PlatformStand = false
+									for _,i in pairs(model:GetDescendants()) do
+										if i:IsA("BasePart") then
+											i.Massless = false			
+										end
+									end
 									hum.Health -= 10
 									dbc = false
 									keyDbc = false

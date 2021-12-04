@@ -590,22 +590,22 @@ mouse.KeyDown:Connect(function(key)
 			dbc = true
 			hrp.Anchored = true
 			for i = 0,1,0.1 do
-				char.Torso = i
+				char.Torso.Transparency = i
 				char["Right Arm"].Transparency = i
 				char["Right Leg"].Transparency = i
 				char["Left Arm"].Transparency = i
 				char["Left Leg"].Transparency = i
-				char.Head = i
+				char.Head.Transparency = i
 				task.wait()
 			end
 			char:SetPrimaryPartCFrame(CFrame.new(mouse.Hit.Position + Vector3.new(0,3,0)))
 			for i = 1,0,-0.1 do
-				char.Torso = i
+				char.Torso.Transparency = i
 				char["Right Arm"].Transparency = i
 				char["Right Leg"].Transparency = i
 				char["Left Arm"].Transparency = i
 				char["Left Leg"].Transparency = i
-				char.Head = i
+				char.Head.Transparency = i
 				task.wait()
 			end
 			hrp.Anchored = false

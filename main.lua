@@ -116,12 +116,6 @@ local chat_messages = {
 
 --Code
 
-uis.InputBegan:Connect(function(input,gameProccesed)
-	if not gameProccesed then
-		print(input.KeyCode.Name)				
-	end
-end)
-
 humanoid.BreakJointsOnDeath = false
 
 local runningEvent = Instance.new("BindableEvent")

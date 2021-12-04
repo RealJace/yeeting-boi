@@ -381,7 +381,7 @@ mouse.Button1Down:Connect(function()
 									Skreem.Volume = 1
 									Skreem:Play()
 									for _,joint in pairs(model:GetDescendants()) do
-										if joint:IsA("Motor6D") then
+										if joint:IsA("Motor6D") or joint:IsA("Weld") then
 											local A1 = Instance.new("Attachment")
 											local A2 = Instance.new("Attachment")
 											local socket = Instance.new("BallSocketConstraint")
@@ -397,8 +397,6 @@ mouse.Button1Down:Connect(function()
 											socket.Attachment1 = A2
 											socket.LimitsEnabled = true
 											socket.TwistLimitsEnabled = true
-											joint.Enabled = false
-										elseif joint:IsA("Weld") then
 											joint.Enabled = false
 										end
 									end
@@ -419,7 +417,7 @@ mouse.Button1Down:Connect(function()
 									e.Position = root.Position
 									e.Parent = workspace
 									for _,joint in pairs(model:GetDescendants()) do
-										if joint:IsA("Motor6D") then
+										if joint:IsA("Motor6D") or joint:IsA("Weld") then
 											if joint.Parent:FindFirstChild("Socket") then
 												joint.Parent.Socket:Destroy()
 											end
@@ -429,8 +427,6 @@ mouse.Button1Down:Connect(function()
 											if joint.Part1:FindFirstChild("A2") then
 												joint.Part1.A2:Destroy()
 											end
-											joint.Enabled = true
-										elseif joint:IsA("Weld") then
 											joint.Enabled = true
 										end
 									end
@@ -452,21 +448,19 @@ mouse.Button1Down:Connect(function()
 								elseif string.lower(key) == "e" then
 									if model then
 										for _,joint in pairs(model:GetDescendants()) do
-											if joint:IsA("Motor6D") then
-												if joint.Parent:FindFirstChild("Socket") then
-													joint.Parent.Socket:Destroy()
-												end
-												if joint.Part0:FindFirstChild("A1") then
-													joint.Part0.A1:Destroy()
-												end
-												if joint.Part1:FindFirstChild("A2") then
-													joint.Part1.A2:Destroy()
-												end
-												joint.Enabled = true
-											elseif joint:IsA("Weld") then
-												joint.Enabled = true
+										if joint:IsA("Motor6D") or joint:IsA("Weld") then
+											if joint.Parent:FindFirstChild("Socket") then
+												joint.Parent.Socket:Destroy()
 											end
+											if joint.Part0:FindFirstChild("A1") then
+												joint.Part0.A1:Destroy()
+											end
+											if joint.Part1:FindFirstChild("A2") then
+												joint.Part1.A2:Destroy()
+											end
+											joint.Enabled = true
 										end
+									end
 										hum.PlatformStand = false
 									end
 									coroutine.wrap(function()

@@ -529,7 +529,7 @@ mouse.Button1Down:Connect(function()
 									local Force = Instance.new("BodyForce")
 									Force.Parent = root
 									Force.Name = "Force"
-									Force.Force = Vector3.new(0,2000,0)
+									Force.Force = (hrp.CFrame.UpVector) * 500
 									task.wait(3)
 									local fard = Instance.new("Sound",root)
 									fard.SoundId = "rbxassetid://7466798053"
@@ -581,6 +581,36 @@ end)
 mouse.KeyDown:Connect(function(key)
 	if string.lower(key) == "leftshift" then
 		running = not running
+	end
+end)
+
+mouse.KeyDown:Connect(function(key)
+	if string.lower(key) == "j" then
+		if dbc == false then
+			dbc = true
+			hrp.Anchored = true
+			for i = 0,1,0.1 do
+				char.Torso = i
+				char["Right Arm"] = i
+				char["Right Leg"] = i
+				char["Left Arm"] = i
+				char["Left Leg"] = i
+				char.Head = i
+				task.wait()
+			end
+			char:SetPrimaryPartCFrame(CFrame.new(mouse.Hit.Position + Vector3.new(0,3,0)))
+			for i = 1,0,-0.1 do
+				char.Torso = i
+				char["Right Arm"] = i
+				char["Right Leg"] = i
+				char["Left Arm"] = i
+				char["Left Leg"] = i
+				char.Head = i
+				task.wait()
+			end
+			hrp.Anchored = false
+			dbc = false
+		end
 	end
 end)
 
@@ -665,6 +695,8 @@ humanoid.Died:Connect(function()
 			socket.LimitsEnabled = true
 			socket.TwistLimitsEnabled = true
 			joint.Enabled = false
+		elseif joint:IsA("BasePart") then
+			joint.Massless = true
 		end
 	end
 	coroutine.wrap(function()
@@ -672,7 +704,7 @@ humanoid.Died:Connect(function()
 		Force.Parent = char.Torso
 		Force.Name = "Force"
 		Force.Force = (char.Torso.CFrame.LookVector) * 500
-		task.wait(0.1)
+		task.wait(0.4)
 		Force:Destroy()
 	end)()
 end)

@@ -480,8 +480,16 @@ mouse.Button1Down:Connect(function()
 end)
 
 mouse.KeyDown:Connect(function(key)
-	if string.lower(key) == "x" then
-		
+	if string.lower(key) == string.char(48) or string.lower(key) == 0 then
+		print("Running")
+		running = true
+	end
+end)
+
+mouse.KeyUp:Connect(function(key)
+	if string.lower(key) == string.char(48) or string.lower(key) == 0 then
+		print("Walking")
+		running = false
 	end
 end)
 
@@ -547,6 +555,7 @@ hum.Died:Connect(function()
 	leftArm.Enabled = false
 	torso.Enabled = false
 	head.Enabled = false
+	hum.PlatformStand = true
 	for _,joint in pairs(char:GetDescendants()) do
 		if joint:IsA("Motor6D") then
 			local A1 = Instance.new("Attachment")
@@ -567,4 +576,12 @@ hum.Died:Connect(function()
 			joint.Enabled = false
 		end
 	end
+	coroutine.wrap(function()
+		local Force = Instance.new("BodyForce")
+		Force.Parent = char.Torso
+		Force.Name = "Force"
+		Force.Force = (char.Torso.CFrame.LookVector) * 500
+		task.wait(0.1)
+		Force:Destroy()
+	end)()
 end)

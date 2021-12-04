@@ -398,6 +398,8 @@ mouse.Button1Down:Connect(function()
 											socket.LimitsEnabled = true
 											socket.TwistLimitsEnabled = true
 											joint.Enabled = false
+										elseif joint:IsA("Weld") then
+											joint.Enabled = false
 										end
 									end
 									local Force = Instance.new("BodyForce")
@@ -427,6 +429,8 @@ mouse.Button1Down:Connect(function()
 											if joint.Part1:FindFirstChild("A2") then
 												joint.Part1.A2:Destroy()
 											end
+											joint.Enabled = true
+										elseif joint:IsA("Weld") then
 											joint.Enabled = true
 										end
 									end
@@ -458,6 +462,8 @@ mouse.Button1Down:Connect(function()
 												if joint.Part1:FindFirstChild("A2") then
 													joint.Part1.A2:Destroy()
 												end
+												joint.Enabled = true
+											elseif joint:IsA("Weld") then
 												joint.Enabled = true
 											end
 										end

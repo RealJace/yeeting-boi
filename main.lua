@@ -87,13 +87,13 @@ local creatorId = game:GetService("Players"):GetPlayerByUserId(1019187771)
 print("Yeeter by " .. creatorId.DisplayName .. " (@" .. creatorId.Name .. ")")
 
 local char = owner.Character
-local hum = char:FindFirstChildWhichIsA("Humanoid")
+local humanoid = char:FindFirstChildWhichIsA("Humanoid")
 local ts = game:GetService("TweenService")
 local uis = game:GetService("UserInputService")
 local chat = game:GetService("Chat")
 local hrp = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso")
 
-if not hum.RigType == Enum.HumanoidRigType.R6 then
+if not humanoid.RigType == Enum.HumanoidRigType.R6 then
 	warn("Please switch to R6 and run this script again.")
 else
 	print("Script loaded correctly")
@@ -115,11 +115,11 @@ local chat_messages = {
 }
 
 --Code
-	
+
 uis.InputBegan:Connect(function(input,gameProccesed)
-if not gameProccesed then
-print(input.KeyCode.Name)				
-end
+	if not gameProccesed then
+		print(input.KeyCode.Name)				
+	end
 end)
 
 hum.BreakJointsOnDeath = false
@@ -204,8 +204,8 @@ torso.Part0 = hrp
 --torso.C0 = hrp.RootJoint.C0
 --torso.C1 = hrp.RootJoint.C1
 
-hum.MaxHealth = math.huge
-hum.Health = hum.MaxHealth
+humanoid.MaxHealth = math.huge
+humanoid.Health = humanoid.MaxHealth
 
 local BillboardGui0 = Instance.new("BillboardGui")
 local Frame1 = Instance.new("Frame")
@@ -339,6 +339,24 @@ function yeetAnim()
 	end
 end
 
+function yeetAnim2()
+	for i = 0,1,0.2 do
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.new(0.589, -0.802, 0) * CFrame.Angles(0, 0, math.rad(130.004)),i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0 * CFrame.new(-0.677, -0.938, 0) * CFrame.Angles(0, 0, math.rad(-139.974)),i)
+		task.wait()
+	end
+	for i = 0,1,0.2 do
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.new(1.355, -0.16, 0) * CFrame.Angles(0, 0, math.rad(180.023)),i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0 * CFrame.new(-1.32, -0.172, 0) * CFrame.Angles(0, 0, math.rad(-180.023)),i)
+		task.wait()
+	end
+	for i = 0,1,0.2 do
+		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0 * CFrame.new(0.48, 1.356, 0) * CFrame.Angles(0, 0, math.rad(-150)),i)
+		leftArm.C0 = leftArm.C0:Lerp(char.Torso["Left Shoulder"].C0 * CFrame.new(-0.58, 1.414, 0) * CFrame.Angles(0, 0, math.rad(154.985)),i)
+		task.wait()
+	end
+end
+
 function defaultAnim()
 	for i = 0,1,0.2 do
 		rightArm.C0 = rightArm.C0:Lerp(char.Torso["Right Shoulder"].C0,i)
@@ -442,19 +460,80 @@ mouse.Button1Down:Connect(function()
 									fard:Destroy()
 									hum.PlatformStand = false
 									hum.Health -= 10
-									if hum.Health < 1 then
-										game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage",{
-											Text = (model.Name .. " " .. chat_messages[math.random(1,#chat_messages)] .. " " .. owner.DisplayName);
-											Color = Color3.fromRGB(255,255,0);
-											Font = Enum.Font.Arcade; 
-											FontSize = Enum.FontSize.Size18;
-										})
-									end
 									dbc = false
 									keyDbc = false
 								elseif string.lower(key) == "e" then
 									if model then
 										for _,joint in pairs(model:GetDescendants()) do
+											if joint:IsA("Motor6D") or joint:IsA("Weld") then
+												if joint.Parent:FindFirstChild("Socket") then
+													joint.Parent.Socket:Destroy()
+												end
+												if joint.Part0:FindFirstChild("A1") then
+													joint.Part0.A1:Destroy()
+												end
+												if joint.Part1:FindFirstChild("A2") then
+													joint.Part1.A2:Destroy()
+												end
+												joint.Enabled = true
+											end
+										end
+										hum.PlatformStand = false
+									end
+									coroutine.wrap(function()
+										defaultAnim()
+									end)()
+									weld:Destroy()
+									dbc = false
+									keyDbc = false
+								elseif string.lower(key) == "x" then
+									keyDbc = true
+									weld:Destroy()
+									coroutine.wrap(function()
+										yeetAnim2()
+										defaultAnim()
+									end)()
+									local Skreem = Instance.new("Sound",root)
+									Skreem.SoundId = "rbxassetid://4620905105"
+									Skreem.Volume = 1
+									Skreem:Play()
+									for _,joint in pairs(model:GetDescendants()) do
+										if joint:IsA("Motor6D") or joint:IsA("Weld") then
+											local A1 = Instance.new("Attachment")
+											local A2 = Instance.new("Attachment")
+											local socket = Instance.new("BallSocketConstraint")
+											A1.Name = "A1"
+											A2.Name = "A2"
+											A1.Parent = joint.Part0
+											A2.Parent = joint.Part1
+											A1.CFrame = joint.C0
+											A2.CFrame = joint.C1
+											socket.Name = "Socket"
+											socket.Parent = joint.Parent
+											socket.Attachment0 = A1
+											socket.Attachment1 = A2
+											socket.LimitsEnabled = true
+											socket.TwistLimitsEnabled = true
+											joint.Enabled = false
+										end
+									end
+									local Force = Instance.new("BodyForce")
+									Force.Parent = root
+									Force.Name = "Force"
+									Force.Force = (hrp.CFrame.UpVector) * 2000
+									task.wait(3)
+									local fard = Instance.new("Sound",root)
+									fard.SoundId = "rbxassetid://7466798053"
+									fard.Volume = 2
+									fard:Play()
+									local e = Instance.new("Explosion")
+									e.BlastPressure = 0
+									e.BlastRadius = 0
+									e.DestroyJointRadiusPercent = 0
+									e.ExplosionType = Enum.ExplosionType.NoCraters
+									e.Position = root.Position
+									e.Parent = workspace
+									for _,joint in pairs(model:GetDescendants()) do
 										if joint:IsA("Motor6D") or joint:IsA("Weld") then
 											if joint.Parent:FindFirstChild("Socket") then
 												joint.Parent.Socket:Destroy()
@@ -468,12 +547,11 @@ mouse.Button1Down:Connect(function()
 											joint.Enabled = true
 										end
 									end
-										hum.PlatformStand = false
-									end
-									coroutine.wrap(function()
-										defaultAnim()
-									end)()
-									weld:Destroy()
+									Skreem:Destroy()
+									Force:Destroy()
+									fard:Destroy()
+									hum.PlatformStand = false
+									hum.Health -= 10
 									dbc = false
 									keyDbc = false
 								end
@@ -488,13 +566,7 @@ end)
 
 mouse.KeyDown:Connect(function(key)
 	if string.lower(key) == "leftshift" then
-		running = true
-	end
-end)
-	
-mouse.KeyUp:Connect(function(key)
-	if string.lower(key) == "leftshift" then
-		running = false
+		running = not running
 	end
 end)
 
@@ -503,16 +575,16 @@ end)
 coroutine.wrap(function()
 	while task.wait() do
 		if hrp.Velocity.x > 1 or hrp.Velocity.x < -1 or hrp.Velocity.z > 1 or hrp.Velocity.z < -1 then
-			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick()*20)/15,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),math.cos(tick()*10)/15) * CFrame.fromEulerAnglesXYZ(hum.MoveDirection.z/6,0,-hum.MoveDirection.x/6) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0),0.3)
-			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1+math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((-math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(-math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
-			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((math.sin(tick()*10)*hum.MoveDirection.z)/1.5,0,(math.sin(tick()*10)*-hum.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
+			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick()*20)/15,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),math.cos(tick()*10)/15) * CFrame.fromEulerAnglesXYZ(humanoid.MoveDirection.z/6,0,-humanoid.MoveDirection.x/6) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0),0.3)
+			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1+math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((-math.sin(tick()*10)*humanoid.MoveDirection.z)/1.5,0,(-math.sin(tick()*10)*-humanoid.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
+			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.cos(tick()*10)/4,0) * CFrame.Angles(0,math.rad(-hrp.Orientation.y),0) * CFrame.fromEulerAnglesXYZ((math.sin(tick()*10)*humanoid.MoveDirection.z)/1.5,0,(math.sin(tick()*10)*-humanoid.MoveDirection.x)/1.5) * CFrame.Angles(0,math.rad(hrp.Orientation.y),0) * CFrame.new(0,-1,0),0.3)
 		else
 			torso.C0 = torso.C0:lerp(CFrame.new(0,math.sin(tick())/20,0) * CFrame.Angles(0,math.rad(0),math.sin(tick())/30),0.3)
 			leftLeg.C0 = leftLeg.C0:lerp(CFrame.new(-0.5,-1-math.sin(tick())/20,0) * CFrame.Angles(0,0,math.rad(-3)-math.sin(tick())/30) * CFrame.new(0,-1,0),0.3)
 			rightLeg.C0 = rightLeg.C0:lerp(CFrame.new(0.5,-1-math.sin(tick())/20,0) * CFrame.Angles(0,0,math.rad(3)-math.sin(tick())/30) * CFrame.new(0,-1,0),0.3)
 		end
 		if running == true then
-			hum.WalkSpeed = 80
+			humanoid.WalkSpeed = 80
 			if Trail0.Enabled == false then
 				Trail0.Enabled = true
 			end
@@ -526,7 +598,7 @@ coroutine.wrap(function()
 				lightOn:Play()
 			end
 		else
-			hum.WalkSpeed = 16
+			humanoid.WalkSpeed = 16
 			if Trail0.Enabled == true then
 				Trail0.Enabled = false
 			end
@@ -541,9 +613,9 @@ coroutine.wrap(function()
 			end
 		end
 		pcall(function()
-			Frame3:TweenSize(UDim2.new(math.clamp(hum.Health / 100,0,1), 0,0, 25))
+			Frame3:TweenSize(UDim2.new(math.clamp(humanoid.Health / 100,0,1), 0,0, 25))
 		end)
-		TextLabel4.Text = "Health : " .. tostring(math.floor(math.clamp(hum.Health,0,100))) .. "%"
+		TextLabel4.Text = "Health : " .. tostring(math.floor(math.clamp(humanoid.Health,0,100))) .. "%"
 	end
 end)()
 
@@ -553,14 +625,14 @@ char.DescendantAdded:Connect(function(i)
 	end
 end)
 
-hum.Died:Connect(function()
+humanoid.Died:Connect(function()
 	rightLeg.Enabled = false
 	rightArm.Enabled = false
 	leftLeg.Enabled = false
 	leftArm.Enabled = false
 	torso.Enabled = false
 	head.Enabled = false
-	hum.PlatformStand = true
+	humanoid.PlatformStand = true
 	for _,joint in pairs(char:GetDescendants()) do
 		if joint:IsA("Motor6D") then
 			local A1 = Instance.new("Attachment")

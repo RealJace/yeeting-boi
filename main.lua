@@ -514,7 +514,7 @@ mouse.Button1Down:Connect(function()
 									local Force = Instance.new("BodyForce")
 									Force.Parent = root
 									Force.Name = "Force"
-									Force.Force = (hrp.CFrame.UpVector) * 2000
+									Force.Force = Vector.new(0,99999,0)
 									task.wait(3)
 									local fard = Instance.new("Sound",root)
 									fard.SoundId = "rbxassetid://7466798053"

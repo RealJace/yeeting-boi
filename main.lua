@@ -480,8 +480,14 @@ mouse.Button1Down:Connect(function()
 end)
 
 mouse.KeyDown:Connect(function(key)
-	if string.lower(key) == "x" then
-		running = not running
+	if string.lower(key) == "leftshift" then
+		running = true
+	end
+end)
+	
+mouse.KeyUp:Connect(function(key)
+	if string.lower(key) == "leftshift" then
+		running = false
 	end
 end)
 

@@ -89,6 +89,7 @@ print("Yeeter by " .. creatorId.DisplayName .. " (@" .. creatorId.Name .. ")")
 local char = owner.Character
 local hum = char:FindFirstChildWhichIsA("Humanoid")
 local ts = game:GetService("TweenService")
+local uis = game:GetService("UserInputService")
 local chat = game:GetService("Chat")
 local hrp = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso")
 
@@ -114,6 +115,12 @@ local chat_messages = {
 }
 
 --Code
+	
+uis.InputBegan:Connect(function(input,gameProccesed)
+if not gameProccesed then
+print(input.KeyCode.Name)				
+end
+end)
 
 hum.BreakJointsOnDeath = false
 

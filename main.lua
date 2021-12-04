@@ -122,7 +122,7 @@ uis.InputBegan:Connect(function(input,gameProccesed)
 	end
 end)
 
-hum.BreakJointsOnDeath = false
+humanoid.BreakJointsOnDeath = false
 
 local runningEvent = Instance.new("BindableEvent")
 runningEvent.Name = "RunningEvent"
